@@ -5,12 +5,12 @@ import { Nav } from "./nav";
 
 import { Banknote, BarChart, BookMarked, Calendar, CalendarCheckIcon, Home, LayoutDashboard, LucideHome, Receipt, ReceiptEuroIcon, ReceiptText, Settings, Settings2, TicketCheck, Users } from "lucide-react";
 import clsx from "clsx";
-import { useCollapableStore } from "@/store/store";
+//import { useCollapableStore } from "@/store/store";
 import { usePathname } from "next/navigation";
 
 
 const SideBar = ({}: PropsWithChildren) => {
-    const {isCollapsed , setCollapse}=useCollapableStore()
+    //const {isCollapsed , setCollapse}=useCollapableStore()
     const pathname = usePathname();
     // const toggleSideBar = () => setCollapse(!isCollapsed);
     // console.log(isCollapsed)
@@ -23,7 +23,7 @@ const SideBar = ({}: PropsWithChildren) => {
         
       <Nav
       
-        isCollapsed={!isCollapsed}
+        isCollapsed={true}
         links={[
           {
             title: "Home",
