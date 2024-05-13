@@ -52,7 +52,7 @@ export function MainNav() {
             >
               Login
             </Link>
-            <ThemeToggle />
+            <ThemeToggle className="" />
           </nav>
         </div>
     </div>
