@@ -23,7 +23,7 @@ export default function Page() {
     <main className="w-full min-h-screen flex items-center justify-center">
       <BottomNav />
       <Header/>
-      <div className="relative w-[95%] top-[50px] max-w-[520px] flex flex-col items-center min-h-screen lg:border-x md:border-x p-3 pb-[70px] mt-4 ">
+      <div className="relative w-[95%] top-[50px] max-w-[540px] flex flex-col items-center min-h-screen lg:border-x md:border-x p-3 pb-[70px] mt-4 ">
         <SearchBar />
         <Categories/>
         <Separator className="mt-5 mb-3 w-[90%]"/>
