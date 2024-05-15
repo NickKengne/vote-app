@@ -23,11 +23,10 @@ export default function Page() {
     <main className="w-full min-h-screen flex items-center justify-center">
       <BottomNav />
       <Header/>
-      <div className="relative w-[95%] top-[50px] max-w-[540px] flex flex-col items-center min-h-screen lg:border-x md:border-x p-3 pb-[70px] mt-4 ">
-        <SearchBar />
+      <div className="relative w-[95%] top-[50px] max-w-[540px] flex flex-col items-center min-h-screen lg:border-x md:border-x p-3 pb-[80px] ">
         <Categories/>
         <Separator className="mt-5 mb-3 w-[90%]"/>
-        <p className="text-sm font-mediumm mb-6">For you (1k)</p>
+        <p className="text-sm font-mediumm mb-2">For you (1k)</p>
         <PostCard/>
       </div>
     </main>

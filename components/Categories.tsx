@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Categories() {
   return (
-    <div className='w-full mt-5'>
+    <div className='w-full'>
         <p className='text-sm'>Choose category of elections</p>
         <div className='grid grid-cols-3 gap-3 mt-3'>
         <div className='cursor-pointer h-5 bg-primary rounded-[14px] p-4 flex justify-center items-center '>
