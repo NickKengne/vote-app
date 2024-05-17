@@ -45,7 +45,7 @@
     "cookies-next": "^4.1.1",
     "date-fns": "^3.3.1",
     "embla-carousel-react": "^8.0.0",
-    "framer-motion": "^11.0.8",
+    "framer-motion": "^11.2.4",
     "icons": "^1.0.0",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.344.0",

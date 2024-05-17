@@ -3,6 +3,6 @@ import { Input } from './ui/input'
 
 export default function SearchBar() {
   return (
-    <Input placeholder='search candidate' type="search" className='h-9 w-[70%] relative '/>
+    <Input placeholder='search candidate' type="search" className='h-9 w-[90%] relative '/>
   )
 }

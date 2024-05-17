@@ -7,6 +7,7 @@ import { Heart, MessageCircle, Share } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { motion } from "framer-motion"
 
 export default function PostCard() {
   const [showComment, setShowComment] = React.useState<Boolean>(false);
@@ -39,23 +40,41 @@ export default function PostCard() {
             Genie Logiciel. Je suis passionné par notre école et je souhaite
             m'engager pour améliorer notre quotidien et notre avenir commun.
           </p>
-          <div className="w-[200px] mt-3  flex justify-between p-2">
-            <div className="flex flex-row gap-1">
-              <Heart
-                fill="yellow"
-                color="yellow"
-                size={18}
-                className="cursor-pointer"
+          <div className="w-[140px] mt-3 gap-3 flex justify-between p-2">
+            <div className="flex flex-row gap-2">
+              <motion.div 
+                children = {(<Heart
+                  fill="yellow"
+                  color="yellow"
+                  size={18}
+                  className="cursor-pointer"
+                />)}
+
+                initial={{
+                  rotate: -50,
+                  scale: 1 
+                }}
+
+                animate={{
+                  rotate: 50,
+                  scale:1.5
+                }}
+
+                transition={{
+                  type:"tween",
+                  repeat:Infinity,
+                  duration:2
+
+                
+                }}
+                
+              
               />
-              <p className="text-sm cursor-pointer">990</p>
+              <p className="text-sm cursor-pointer">1,2M</p>
             </div>
             <div className="flex flex-row gap-1" onClick={handleSetComment}>
               <MessageCircle size={18} className="cursor-pointer" />
               <p className="text-sm cursor-pointer">10k</p>
-            </div>
-            <div className="flex flex-row gap-1">
-              <Share size={18} className="cursor-pointer" />
-              <p className="text-sm cursor-pointer">23</p>
             </div>
           </div>
           {showComment && (
