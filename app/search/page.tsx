@@ -18,7 +18,6 @@ export default function page() {
         <SearchBar/>
         <Separator className="mt-5 mb-3 w-[90%]" />
         <p className="text-2xl font-bold mb-2">Results 🔎 (1)</p>
-        <PostCard />
       </div>
     
   </main>
