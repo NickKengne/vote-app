@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const API_BASE_URL:string  = "http://192.168.1.132:8081/api/v1/booker"
+export const API_BASE_URL:string  = "http://192.168.1.132:8082/api/v1/wevote"
 
 // get request
 export const getAxios = async (url:string,data:any,headers:any) => {

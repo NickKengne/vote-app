@@ -70,6 +70,14 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        spin: {
+          from: {
+            transform: "rotate(0deg)"
+          },
+          to: {
+            transform: "rotate(360deg)"
+          }
+        },
         scroll: {
           to: {
             transform: "translate(calc(-50% - 0.5rem))",
@@ -110,6 +118,7 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "animate-spin":" spin 1s linear infinite",
         spotlight: "spotlight 2s ease .75s 1 forwards",
         shimmer: "shimmer 2s linear infinite",
         "caret-blink": "caret-blink 1.25s ease-out infinite",

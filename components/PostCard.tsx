@@ -9,7 +9,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { motion } from "framer-motion"
 
-export default function PostCard() {
+export default function PostCard({name,talking,votes,election,comments}: {name:string,talking:string,votes:number,election:string,comments:number}) {
   const [showComment, setShowComment] = React.useState<Boolean>(false);
 
   function handleSetComment() {
@@ -25,20 +25,15 @@ export default function PostCard() {
       <div className="w-full flex justify-center gap-2 items-center p-3">
         <Avatar className=" self-start">
           <AvatarImage
-            src="https://media.licdn.com/dms/image/D4E03AQHTYbBtKMY2Vg/profile-displayphoto-shrink_200_200/0/1714722950547?e=1721260800&v=beta&t=-z-ou-3KOEOnl4hdBH1Tj7cKi7chfiqZUu35sTGbJBs"
+            src="https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
             alt="user-profile"
           />
         </Avatar>
         <div className="col-span-4 grow h-auto min-h-100px">
-          <p className="text-sm">Nick Kengne 🎓</p>
-          <p className="text-sm text-gray-600 mb-6">Candidate of Student AE</p>
+          <p className="text-sm">{name}</p>
+          <p className="text-sm text-gray-600 mb-6">Candidate of {election}</p>
           <p className="text-sm text-justify">
-            Bonjour à tous,
-            <br />
-            Je suis ravi de me présenter à vous aujourd'hui en tant que candidat
-            aux élections scolaires. Je m'appelle Nick et je suis en niveau 4
-            Genie Logiciel. Je suis passionné par notre école et je souhaite
-            m'engager pour améliorer notre quotidien et notre avenir commun.
+            {talking}
           </p>
           <div className="w-[140px] mt-3 gap-3 flex justify-between p-2">
             <div className="flex flex-row gap-2">
@@ -51,12 +46,12 @@ export default function PostCard() {
                 />)}
 
                 initial={{
-                  rotate: -50,
-                  scale: 1 
+                  
+                  scale: 0.8 
                 }}
 
                 animate={{
-                  rotate: 50,
+                  
                   scale:1.5
                 }}
 
@@ -70,18 +65,18 @@ export default function PostCard() {
                 
               
               />
-              <p className="text-sm cursor-pointer">1,2M</p>
+              <p className="text-sm cursor-pointer">{votes}</p>
             </div>
             <div className="flex flex-row gap-1" onClick={handleSetComment}>
               <MessageCircle size={18} className="cursor-pointer" />
-              <p className="text-sm cursor-pointer">10k</p>
+              <p className="text-sm cursor-pointer">{comments}</p>
             </div>
           </div>
           {showComment && (
             <div className="mt-3 flex gap-3">
               <Avatar className=" self-start">
                 <AvatarImage
-                  src="https://media.licdn.com/dms/image/D4E03AQHTYbBtKMY2Vg/profile-displayphoto-shrink_200_200/0/1714722950547?e=1721260800&v=beta&t=-z-ou-3KOEOnl4hdBH1Tj7cKi7chfiqZUu35sTGbJBs"
+                  src="https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
                   alt="user-profile"
                 />
               </Avatar>
