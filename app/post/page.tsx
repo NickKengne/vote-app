@@ -68,7 +68,7 @@ export default function page() {
   );
 }
 
-export function CreatePost() {
+ function CreatePost() {
   const [isLoading, setLoading] = React.useState<boolean>(false);
   const [talking, setTalking] = React.useState<string>("");
   const [category, setCategory] = React.useState<any>();
@@ -91,7 +91,7 @@ export function CreatePost() {
   const selectedElection:any =  electionFetch.find((item:any) => item?.name == category )
   const election_id: unknown = selectedElection?.id
 
-  async function createPost(event: SyntheticEvent) {
+  async function createPosts(event: SyntheticEvent) {
     event.preventDefault();
     const dataPost = {
       speech: talking,
@@ -170,7 +170,7 @@ export function CreatePost() {
           {isLoading ? (
             <Loader />
           ) : (
-            <Button type="submit" onClick={createPost}>
+            <Button type="submit" onClick={createPosts}>
               Publish
             </Button>
           )}
@@ -180,7 +180,7 @@ export function CreatePost() {
   );
 }
 
-export function CreateElection() {
+function CreateElection() {
   const [start_date, setStartDate] = useState<any>();
   const [end_date, setEndDate] = useState<any>();
   const [description, setDescription] = React.useState<string>("");
@@ -195,7 +195,7 @@ export function CreateElection() {
     setEndDate(date);
   };
 
-  async function createElection(event: SyntheticEvent) {
+  async function createElections(event: SyntheticEvent) {
     event.preventDefault();
 
     const dataElection = {
@@ -316,7 +316,7 @@ export function CreateElection() {
           {isLoading ? (
             <Loader />
           ) : (
-            <Button type="submit" onClick={createElection}>
+            <Button type="submit" onClick={createElections}>
               Publish
             </Button>
           )}
