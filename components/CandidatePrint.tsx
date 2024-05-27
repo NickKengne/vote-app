@@ -2,36 +2,23 @@
 
 import { cn } from "@/lib/utils";
 import { AnimatedList } from "@/components/magicui/animated-list";
+import { API_BASE_URL } from "@/config/axios";
+import React from "react";
+import { getCookie } from "cookies-next";
+import { Avatar, AvatarImage } from "./ui/avatar";
 
 interface Item {
   name: string;
   description: string;
-  icon: string;
-  color: string;
-  time: string;
+  image: string;
+  party_political:string,
+  
 }
 
-let notifications = [
-  {
-    name: "Nick kengne",
-    description: "AE",
-    time: "130 votes",
 
-    icon: "👤",
-    color: "#00C9A7",
-  },
-  {
-    name: "La Gauche",
-    description: "AE",
-    time: "90 votes",
-    icon: "👤",
-    color: "#FFB800",
-  }
-];
 
-notifications = Array.from({ length: 10 }, () => notifications).flat();
 
-const Notification = ({ name, description, icon, color, time }: Item) => {
+const Notification = ({ name, description, image, party_political }: Item) => {
   return (
     <figure
       className={cn(
@@ -45,22 +32,20 @@ const Notification = ({ name, description, icon, color, time }: Item) => {
       )}
     >
       <div className="flex flex-row items-center gap-3">
-        <div
-          className="flex h-10 w-10 items-center justify-center rounded-2xl"
-          style={{
-            backgroundColor: color,
-          }}
-        >
-          <span className="text-lg">{icon}</span>
-        </div>
+      <Avatar className=" self-start">
+          <AvatarImage
+            src={image}
+            alt="user-profile"
+          />
+        </Avatar>
         <div className="flex flex-col overflow-hidden">
           <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white ">
-            <span className="text-sm sm:text-lg">{name}</span>
+            <span className="text-sm sm:text-lg">{name} 🌍 🚀 </span>
             
           </figcaption>
           <p className="text-[14px] font-normal dark:text-white/60">
             {description}<span className="mx-1">·</span>
-            <span className="text-xs text-gray-500">{time}</span>
+            <span className="text-xs text-gray-500">{party_political}</span>
           </p>
         </div>
       </div>
@@ -69,12 +54,25 @@ const Notification = ({ name, description, icon, color, time }: Item) => {
 };
 
 export function CandidatePrint() {
+  const [candidate , setCandidate] = React.useState<any>([])
+  const token = getCookie("token")
+  React.useEffect(() => {
+    fetch(API_BASE_URL + "/candidate/all",{
+     headers:{
+       "Authorization" : `Bearer ${token}`
+     }
+    }).then(res => res.json())
+       .then(data => {
+         console.log(data)
+         setCandidate(data)
+       })
+   },[])
   return (
-    <div className="fixed right-4 top-4 flex max-h-[350px] min-h-[340px] max-w-[32rem] flex-col overflow-hidden rounded-lg  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60  p-3 lg:z-0 md:z-50 z-50">
+    <div className="fixed right-4 top-4 flex max-h-[350px] min-h-[340px] w-[300px] flex-col overflow-hidden rounded-lg  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60  p-3 lg:z-0 md:z-50 z-50">
       <p className="text-2xl font-medium mb-3">Real time result</p>
       <AnimatedList>
-        {notifications.map((item, idx) => (
-          <Notification {...item} key={idx} />
+        {candidate.map((item:any, idx:number) => (
+          <Notification name={item?.name} image={item?.image} party_political={item?.party_political} description={item?.election?.name}key={idx}  />
         ))}
       </AnimatedList>
     </div>

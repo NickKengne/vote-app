@@ -61,19 +61,24 @@ export default function page() {
       <div className="relative w-[95%] top-[50px] max-w-[540px] flex flex-col justify-center items-center  min-h-screen p-3 pb-[80px] gap-3">
         <p className="font-bold text-2xl mb-6">Manage Content 🪄🔮</p>
 
-        {user?.role === "ADMIN" && <CreateElection />}
-        <CreatePost />
+        {user?.role === "ADMIN" && (<><CreateElection /><CreateCandidate /></>)}
+        
       </div>
     </main>
   );
 }
 
- function CreatePost() {
+ function CreateCandidate() {
   const [isLoading, setLoading] = React.useState<boolean>(false);
   const [talking, setTalking] = React.useState<string>("");
+  const [name,setName] = React.useState<string>("")
+  const [first_name,setFirstName] = React.useState<string>("")
+  const [description,setDescription] = React.useState<string>("")
+  const [party_political,setPartyPolitical] = React.useState<string>("")
+
+
   const [category, setCategory] = React.useState<any>();
   const [electionFetch , setElectionFetch] = React.useState([])
-  const user_id = getCookie("user_id")
   const router = useRouter()
 
   useEffect(() => {
@@ -88,18 +93,24 @@ export default function page() {
       })
   },[])
 
-  const selectedElection:any =  electionFetch.find((item:any) => item?.name == category )
+  const selectedElection:any =  electionFetch?.find((item:any) => item?.name == category)
   const election_id: unknown = selectedElection?.id
 
   async function createPosts(event: SyntheticEvent) {
     event.preventDefault();
+
     const dataPost = {
-      speech: talking,
-      candidate_id: user_id,
+      talking: talking,
+      name: name,
+      first_name: first_name,
+      party_political: party_political,
+      description: description,
+      image: "",
       election_id : election_id
     }
+
     setLoading(!isLoading);
-    postAxios("/post/create", dataPost, {
+    postAxios("/candidate/create", dataPost, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -110,7 +121,11 @@ export default function page() {
         setLoading(false);
         setCategory("");
         setTalking("");
-        router.refresh();
+        setDescription("")
+        setFirstName("")
+        setName("")
+        setFirstName("")
+        router.push("/");
       }
       else{
         setLoading(false)
@@ -122,17 +137,41 @@ export default function page() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Create Post</Button>
+        <Button variant="outline">Create Candidate</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-[625px] w-[90%]">
         <DialogHeader>
-          <DialogTitle>Create Post</DialogTitle>
+          <DialogTitle>Create candidate</DialogTitle>
           <DialogDescription>
-            Set your talking informations up to view
+            Set all informations about candidate
           </DialogDescription>
         </DialogHeader>
         <div className="grid  grid-cols-1 gap-4">
           <div className="grid grid-rows items-center">
+          <Input
+              placeholder="Candidate name"
+              className="mb-3"
+              value={name}
+              onChange={(text) => setName(text.target.value)}
+            />
+            <Input
+              placeholder="Candidate firstname"
+              className="mb-3"
+              value={first_name}
+              onChange={(text) => setFirstName(text.target.value)}
+            />
+            <Input
+              placeholder="Candidate description"
+              className="mb-3"
+              value={description}
+              onChange={(text) => setDescription(text.target.value)}
+            />
+            <Input
+              placeholder="Candidate Party politic"
+              className="mb-3"
+              value={party_political}
+              onChange={(text) => setPartyPolitical(text.target.value)}
+            />
             <Textarea
               placeholder="Say something !"
               className=" bg-background mb-3 border border-input text-foreground"
@@ -219,7 +258,7 @@ function CreateElection() {
         setEndDate("");
         setStartDate("");
         setDescription("");
-        router.refresh();
+        router.push("/");
       }
       else{
         setLoading(false)
