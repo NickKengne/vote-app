@@ -3,7 +3,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
-import { Heart, MessageCircle, Share } from "lucide-react";
+import { Eye, Heart, MessageCircle, Share } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -54,13 +54,14 @@ export default function PostCard({name,talking,votes,election,comments,election_
 
   return (
     <>
-      <div className="w-full flex justify-center gap-2 items-center p-3 cursor-pointer" onClick={onClick}>
+      <div className="w-full relative flex justify-center gap-2 items-center p-3">
         <Avatar className=" self-start">
           <AvatarImage
-            src={image_url}
+            src={image_url== "" ? "https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" : image_url}
             alt="user-profile"
           />
         </Avatar>
+        <Eye className="cursor-pointer absolute right-4 top-3" size={15} onClick={onClick}/>
         <div className="col-span-4 grow h-auto min-h-100px">
           <p className="text-sm">{name}</p>
           <p className="text-sm text-gray-600 mb-6">Candidate of {election}</p>

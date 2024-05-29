@@ -3,32 +3,6 @@ import { API_BASE_URL } from "@/config/axios";
 import React, { useState } from "react";
 import { getCookie } from "cookies-next";
 
-interface categoryType{
-    id:number;
-    name:string;
-}
-
-const categories: categoryType[] = [
-  {
-    id: 1,
-    name: "Presidential",
-  },
-  {
-    id: 2,
-    name: "Legislative",
-  },
-  {
-    id: 3,
-    name: "Pools",
-  },
-  {
-    id: 4,
-    name: "AE School",
-  },
-];
-
-
-
 
 export default function Categories() {
     const [electionFetch, setElectionFetch] = useState<any>([]);
@@ -36,11 +10,7 @@ export default function Categories() {
     const token = getCookie("token")
 
     React.useEffect(() => {
-      fetch(API_BASE_URL + "/election/all",{
-       headers:{
-         "Authorization" : `Bearer ${token}`
-       }
-      }).then(res => res.json())
+      fetch(API_BASE_URL + "/election/all").then(res => res.json())
          .then(data => {
            console.log(data)
            setElectionFetch(data)

@@ -34,7 +34,7 @@ const Notification = ({ name, description, image, party_political }: Item) => {
       <div className="flex flex-row items-center gap-3">
       <Avatar className=" self-start">
           <AvatarImage
-            src={image}
+            src={image== "" ? "https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" : image}
             alt="user-profile"
           />
         </Avatar>
@@ -54,14 +54,10 @@ const Notification = ({ name, description, image, party_political }: Item) => {
 };
 
 export function CandidatePrint() {
-  const [candidate , setCandidate] = React.useState<any>([])
+  const [candidate , setCandidate] = React.useState<[]>([])
   const token = getCookie("token")
   React.useEffect(() => {
-    fetch(API_BASE_URL + "/candidate/all",{
-     headers:{
-       "Authorization" : `Bearer ${token}`
-     }
-    }).then(res => res.json())
+    fetch(API_BASE_URL + "/candidate/all").then(res => res.json())
        .then(data => {
          console.log(data)
          setCandidate(data)
@@ -71,7 +67,7 @@ export function CandidatePrint() {
     <div className="fixed right-4 top-4 flex max-h-[350px] min-h-[340px] w-[300px] flex-col overflow-hidden rounded-lg  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60  p-3 lg:z-0 md:z-50 z-50">
       <p className="text-2xl font-medium mb-3">Real time result</p>
       <AnimatedList>
-        {candidate.map((item:any, idx:number) => (
+        {candidate?.map((item:any, idx:number) => (
           <Notification name={item?.name} image={item?.image} party_political={item?.party_political} description={item?.election?.name}key={idx}  />
         ))}
       </AnimatedList>

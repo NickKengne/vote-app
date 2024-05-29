@@ -28,7 +28,7 @@ export default function Page() {
       .then((data) => setPosts(data));
   }, []);
 
-  console.log(post);
+  //console.log(post);
 
   return (
     <main className="w-full min-h-screen flex items-center justify-center">
