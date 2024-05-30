@@ -12,7 +12,6 @@ import { CandidatePrint } from "@/components/CandidatePrint";
 import { API_BASE_URL } from "@/config/axios";
 import { toast } from "sonner";
 import { electionStore } from "@/store/store";
-import feast from "@/public/images/together.svg"
 
 export default function Page() {
   const [post, setPosts] = useState([]);
@@ -37,7 +36,7 @@ export default function Page() {
   }, [election_id]);
 
 
-  console.table(post)
+  //console.table(post)
 
 
 
@@ -60,7 +59,7 @@ export default function Page() {
               name={item?.candidate?.name + " " + item?.candidate?.first_name}
               talking={item?.speech}
               votes={0}
-              election={item?.candidate?.election?.name}
+              election={item?.election?.name}
               comments={item?.comment}
               election_id={item?.candidate?.election?.id}
               candidate_id={item?.candidate?.id}

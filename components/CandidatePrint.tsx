@@ -62,7 +62,7 @@ export function CandidatePrint() {
     if (election_id != undefined) {
       fetch(API_BASE_URL + `/candidate/election/${election_id}`).then(res => res.json())
        .then(data => {
-        console.table(data)
+        //console.table(data)
          setCandidate(data)
        })
     }
@@ -74,6 +74,7 @@ export function CandidatePrint() {
     }
    },[election_id])
 
+   console.log(candidate)
  
 
   return (
@@ -81,7 +82,7 @@ export function CandidatePrint() {
       <p className="text-2xl font-medium mb-3">Candidate 2024</p>
       <AnimatedList>
         {candidate?.map((item:any, idx:number) => (
-          <Notification name={item?.name} image={item?.image} party_political={item?.party_political} description={item?.election?.name}key={idx}  />
+          <Notification name={item?.name} image={item?.image} party_political={item?.party_political} description={item?.election?.name} key={idx}  />
         ))}
       </AnimatedList>
     </div>

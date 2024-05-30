@@ -1,25 +1,34 @@
-import React from 'react';
 
-export default function CardElection() {
+import { API_BASE_URL } from '@/config/axios';
+import React from 'react';
+import CardSingle from './CardElectionSingle';
+
+export default async function CardElection() {
   const cards = [
     { id: 1, toColor1: 'to-blue-300', fromColor1: 'from-blue-600', toColor2: 'to-blue-600', fromColor2: 'from-blue-300' },
     { id: 2, toColor1: 'to-green-300', fromColor1: 'from-green-600', toColor2: 'to-green-600', fromColor2: 'from-green-300' },
     { id: 3, toColor1: 'to-orange-300', fromColor1: 'from-orange-600', toColor2: 'to-orange-600', fromColor2: 'from-orange-300' },
-
+    { id: 5, toColor1: 'to-pink-300', fromColor1: 'from-pink-600', toColor2: 'to-pink-600', fromColor2: 'from-pink-300' },
+    { id: 4, toColor1: 'to-primary', fromColor1: 'from-primary', toColor2: 'to-pink-600', fromColor2: 'from-pink-300' },
+    { id: 6, toColor1: 'to-red-300', fromColor1: 'from-orange-600', toColor2: 'to-orange-600', fromColor2: 'from-orange-300' },
+    { id: 7, toColor1: 'to-gray-300', fromColor1: 'from-gray-600', toColor2: 'to-gray-600', fromColor2: 'from-gray-300' },
     // Ajoutez d'autres cartes ici
   ];
 
+
+  const election = await fetch(API_BASE_URL + `/election/all`).then(res => res.json())
+                          .then(data => data)
+  
+
   return (
-    <div className='w-full flex flex-row items-center gap-5 flex-wrap'>
-      {cards.map(card => (
-        <div key={card.id} className='max-w-[240px] bg-blue-700 h-[130px] w-[95%] relative rounded-[6px]'>
-          <div className={`absolute inset-0 bg-gradient-to-br ${card.toColor1} ${card.fromColor1} skew-y-6 -rotate-2 rounded-[6px]`}></div>
-          <div className={`absolute inset-0 bg-gradient-to-br ${card.toColor2} ${card.fromColor2} hover:bg-yellow-500 transition-all duration-1000 ease-in-out rotate-4 rounded-[6px] cursor-pointer`}>
-            <p className='text-[17px] font-bold font-sans p-6'>10 Candidates</p>
-            <p className='absolute bottom-2 right-2 text-[12px]'>wevote</p>
-          </div>
-        </div>
-      ))}
+    <div className='w-full flex flex-row justify-center items-center gap-5 flex-wrap'>
+       <div className='w-full flex flex-row justify-between items-center gap-5 flex-wrap'>
+      {election.map((election:any, index:number) => {
+        const color = cards[index % cards.length]; // Cycle through the colors
+          return <CardSingle key={election.id} election={election} color={color} />;
+        
+      })}
+    </div>
     </div>
   );
 }

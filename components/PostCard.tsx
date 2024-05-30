@@ -70,7 +70,7 @@ export default function PostCard({
           Authorization: `Bearer ${token}`,
         },
       }).then((res) => {
-        console.log(res);
+        toast(res)
       });
     }
   }
@@ -100,11 +100,14 @@ export default function PostCard({
           toast("Error occurred during post comment, retry!");
         }
       });
+    } else {
+      setLoading(false);
+      toast("you are not logged !");
+      router.push("/auth/login");
     }
-    setLoading(false);
-    toast("you are not logged !")
-    router.push("/auth/login")
   }
+
+  //console.log(election)
 
   return (
     <>
@@ -131,7 +134,7 @@ export default function PostCard({
           image_url={image_url}
         />
         <div className="col-span-4 grow h-auto min-h-100px">
-          <p className="text-sm">{name}</p>
+          <p className="text-sm">{name} 📢</p>
           <p className="text-sm text-gray-600 mb-6">Candidate of {election}</p>
           <p className="text-sm text-justify">{talking}</p>
           <div className="w-[140px] mt-3 gap-3 flex justify-between p-2">
@@ -207,19 +210,29 @@ export default function PostCard({
                   </Button>
                 )}
               </div>
-      <Separator className="w-[92%] mt-3" />
+              <Separator className="w-[92%] mt-3" />
 
               <div className="mt-4 mb-3 ">
                 {comments.map((comment: any, index: number) => (
                   <div key={index} className="flex gap-3 mt-3">
                     <Avatar className="">
-                      <AvatarFallback className=""><p className="text-foreground">{comment.user.name.charAt(0)}</p></AvatarFallback>
+                      <AvatarFallback className="">
+                        <p className="text-foreground">
+                          {comment.user.name.charAt(0)}
+                        </p>
+                      </AvatarFallback>
                     </Avatar>
                     <div>
-                     <div className="flex  justify-between gap-3 mt-2">
-                     <p className="text-sm font-semibold">{user_id == comment.user.id ? "Moi" : comment.user.name + " " + comment.user.firstname}</p>
-                     <p className="text-gray-600 text-[12px]">{timeAgo(comment.created_at)}</p>
-                     </div>
+                      <div className="flex  justify-between gap-3 mt-2">
+                        <p className="text-sm font-semibold">
+                          {user_id == comment.user.id
+                            ? "Moi"
+                            : comment.user.name + " " + comment.user.firstname}
+                        </p>
+                        <p className="text-gray-600 text-[12px]">
+                          {timeAgo(comment.created_at)}
+                        </p>
+                      </div>
                       <p className="text-[13px] mt-2">{comment.comment}</p>
                     </div>
                   </div>
