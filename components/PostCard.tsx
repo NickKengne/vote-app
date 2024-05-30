@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Eye, Heart, MessageCircle, Send, Share } from "lucide-react";
@@ -14,6 +14,9 @@ import { postAxios } from "@/config/axios";
 import { headers } from "next/headers";
 import PostVIewPerCandidate from "./PostVIewPerCandidate";
 import { SheetTrigger } from "./ui/sheet";
+import { toast } from "sonner";
+import Loader from "./Loader";
+import { timeAgo } from "@/utils/timeAgo";
 
 export default function PostCard({
   name,
@@ -24,16 +27,18 @@ export default function PostCard({
   election_id,
   candidate_id,
   image_url,
+  post_id,
   onClick,
 }: {
   name: string;
   talking: string;
   votes: number;
   election: string;
-  comments: number;
+  comments: [];
   election_id: number;
   candidate_id: string;
   image_url: string;
+  post_id: number;
   onClick: () => any;
 }) {
   const router = useRouter();
@@ -42,6 +47,7 @@ export default function PostCard({
   const [showComment, setShowComment] = React.useState<Boolean>(false);
   const [onTypingComment, setTypingComment] = React.useState<boolean>(false);
   const [thisComment, setThisComment] = React.useState<string>("");
+  const [isLoading, setLoading] = React.useState<boolean>(false);
   const [like, setLike] = React.useState<Boolean>(false);
 
   function handleSetComment() {
@@ -72,10 +78,39 @@ export default function PostCard({
     }
   }
 
+  async function postComment(event: SyntheticEvent) {
+    event.preventDefault();
+    setLoading(true);
+
+    const dataComment = {
+      comment: thisComment,
+      post_id: post_id,
+      user_id: user_id,
+    };
+
+    if (thisComment.length > 0) {
+      postAxios("/comment/create", dataComment, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res) => {
+        if (res.success == true) {
+          router.refresh();
+          setLoading(false);
+          toast(res.message);
+        } else {
+          setLoading(false);
+          toast("Error occurred during post comment, retry!");
+        }
+      });
+    }
+    setLoading(false);
+  }
+
   return (
     <>
       <div className="w-full relative flex justify-center gap-4 items-center p-3">
-        <Avatar className=" self-start">
+        <Avatar className="self-start">
           <AvatarImage
             src={
               image_url == ""
@@ -140,30 +175,57 @@ export default function PostCard({
             </div>
             <div className="flex flex-row gap-1" onClick={handleSetComment}>
               <MessageCircle size={18} className="cursor-pointer" />
-              <p className="text-sm cursor-pointer">{comments}</p>
+              <p className="text-sm cursor-pointer">{comments?.length}</p>
             </div>
           </div>
           {showComment && (
-            <div className="mt-3 flex gap-3">
-              <Avatar className=" self-start">
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="user profile"
+            <div className="mt-3">
+              <div className="flex gap-3">
+                <Avatar className="self-start">
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="user profile"
+                  />
+                  <AvatarFallback>Me</AvatarFallback>
+                </Avatar>
+                <Textarea
+                  className="bg-background dark:border-gray-800 border-gray-200 text-foreground"
+                  placeholder="write a comment"
+                  value={thisComment}
+                  onChange={(text) => {
+                    setTypingComment(true);
+                    setThisComment(text.target.value);
+                  }}
                 />
-                <AvatarFallback>Me</AvatarFallback>
-              </Avatar>
-              <Textarea
-                className="bg-background dark:border-gray-800 border-gray-200 text-foreground"
-                placeholder="write a comment"
-                value={thisComment}
-                onChange={(text) => {
-                  setTypingComment(true);
-                  setThisComment(text.target.value);
-                }}
-              />
-              <Button variant={thisComment.length > 0 ? "default" : "outline"}>
-                <Send size={15} />
-              </Button>
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <Button
+                    variant={thisComment.length > 0 ? "default" : "outline"}
+                    onClick={postComment}
+                  >
+                    <Send size={15} />
+                  </Button>
+                )}
+              </div>
+      <Separator className="w-[92%] mt-3" />
+
+              <div className="mt-4 mb-3 ">
+                {comments.map((comment: any, index: number) => (
+                  <div key={index} className="flex gap-3 mt-3">
+                    <Avatar className="">
+                      <AvatarFallback className=""><p className="text-foreground">{comment.user.name.charAt(0)}</p></AvatarFallback>
+                    </Avatar>
+                    <div>
+                     <div className="flex  justify-between gap-3 mt-2">
+                     <p className="text-sm font-semibold">{user_id == comment.user.id ? "Moi" : comment.user.name + " " + comment.user.firstname}</p>
+                     <p className="text-gray-600 text-[12px]">{timeAgo(comment.created_at)}</p>
+                     </div>
+                      <p className="text-[13px] mt-2">{comment.comment}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>

@@ -38,7 +38,7 @@ export default function PostVIewPerCandidate({
   talking: string;
   votes: number;
   election: string;
-  comments: number;
+  comments: [];
   election_id: number;
   candidate_id: string;
   image_url: string;

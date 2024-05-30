@@ -37,6 +37,9 @@ export default function Page() {
   }, [election_id]);
 
 
+  console.table(post)
+
+
 
   return (
     <main className="w-full min-h-screen flex items-center justify-center">
@@ -52,11 +55,13 @@ export default function Page() {
           <p className="font-bold text-2xl mb-2">For you 👀 ({post?.length})</p>
           {post.reverse().map((item: any, index: number) => (
             <PostCard
+              post_id={item?.id}
+              key={index}
               name={item?.candidate?.name + " " + item?.candidate?.first_name}
               talking={item?.speech}
               votes={0}
               election={item?.candidate?.election?.name}
-              comments={item?.comment?.length}
+              comments={item?.comment}
               election_id={item?.candidate?.election?.id}
               candidate_id={item?.candidate?.id}
               image_url={item?.candidate?.image}

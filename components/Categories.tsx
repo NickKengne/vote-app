@@ -15,7 +15,6 @@ export default function Categories() {
     React.useEffect(() => {
       fetch(API_BASE_URL + "/election/all").then(res => res.json())
          .then(data => {
-           console.log("data",data)
            setElectionFetch(data)
          })
      },[])
