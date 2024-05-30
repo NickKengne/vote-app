@@ -9,6 +9,7 @@ import {
   ScissorsLineDashed,
   Search,
   Settings,
+  Star,
   User,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -44,14 +45,14 @@ export default function BottomNav() {
       </Link>
 
       <Link
-        href={"/search"}
+        href={"/election"}
         className={
-          pathname == "/search"
+          pathname == "/election"
             ? " border-input bg-primary hover:bg-accent hover:text-accent-foreground h-11 rounded-md px-8 flex items-center justify-center"
             : " bg-background hover:bg-accent  hover:text-accent-foreground h-11 rounded-md px-8 flex items-center justify-center"
         }
       >
-        <Search />
+        <Star />
       </Link>
 
       {(role == "ADMIN" || role == "CANDIDATE") && (

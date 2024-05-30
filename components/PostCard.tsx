@@ -51,9 +51,6 @@ export default function PostCard({
   const [like, setLike] = React.useState<Boolean>(false);
 
   function handleSetComment() {
-    if (user_id == undefined) {
-      router.push("/auth/login");
-    }
     setShowComment(!showComment);
   }
 
@@ -88,7 +85,7 @@ export default function PostCard({
       user_id: user_id,
     };
 
-    if (thisComment.length > 0) {
+    if (thisComment.length > 0 && user_id != undefined) {
       postAxios("/comment/create", dataComment, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,6 +102,8 @@ export default function PostCard({
       });
     }
     setLoading(false);
+    toast("you are not logged !")
+    router.push("/auth/login")
   }
 
   return (
