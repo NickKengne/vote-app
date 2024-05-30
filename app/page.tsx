@@ -18,17 +18,36 @@ import { user } from "@/types/type";
 import { CandidatePrint } from "@/components/CandidatePrint";
 import { API_BASE_URL } from "@/config/axios";
 import { toast } from "sonner";
+import { electionStore, useSelectPostPerElection } from "@/store/store";
 
 export default function Page() {
   const [post, setPosts] = useState([]);
+  const [filterPosts, setFilterPosts] = useState([]);
+  const isSelected = useSelectPostPerElection((state: any) => state.isSelected);
+  const election = electionStore((state: any) => state.election);
+  const election_id = election?.id
 
   useEffect(() => {
-    fetch(API_BASE_URL + "/post/all")
+    
+     if (election_id != undefined) {
+      fetch(API_BASE_URL + `/post/election/${election_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data)
+        setPosts(data)
+      });
+     }
+     else{
+      fetch(API_BASE_URL + "/post/all")
       .then((res) => res.json())
       .then((data) => setPosts(data));
-  }, []);
+     }
+    
+  }, [election_id]);
 
-  //console.log(post);
+  console.log(isSelected, filterPosts);
+
+
 
   return (
     <main className="w-full min-h-screen flex items-center justify-center">
@@ -37,7 +56,7 @@ export default function Page() {
       <CandidatePrint />
       <Suspense fallback={<Loading />}>
         <div className="relative w-[95%] top-[50px] max-w-[540px] flex flex-col items-center min-h-screen p-3 pb-[80px] ">
-          <Suspense fallback={<Loading/>}>
+          <Suspense fallback={<Loading />}>
             <Categories />
           </Suspense>
           <Separator className="mt-5 mb-3 w-[90%]" />
@@ -53,7 +72,7 @@ export default function Page() {
               candidate_id={item?.candidate?.id}
               image_url={item?.candidate?.image}
               onClick={() => {
-                toast(item?.candidate?.name)
+                toast(item?.candidate?.name);
               }}
             />
           ))}

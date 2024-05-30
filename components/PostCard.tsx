@@ -7,49 +7,67 @@ import { Eye, Heart, MessageCircle, Share } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { postAxios } from "@/config/axios";
 import { headers } from "next/headers";
+import PostVIewPerCandidate from "./PostVIewPerCandidate";
+import { SheetTrigger } from "./ui/sheet";
 
-export default function PostCard({name,talking,votes,election,comments,election_id,candidate_id,image_url,onClick}: {name:string,talking:string,votes:number,election:string,comments:number,election_id:number,candidate_id:string,image_url:string,onClick:() => any}) {
-  const router = useRouter()
-  const user_id = getCookie("user_id")
-  const token = getCookie("token")
+export default function PostCard({
+  name,
+  talking,
+  votes,
+  election,
+  comments,
+  election_id,
+  candidate_id,
+  image_url,
+  onClick,
+}: {
+  name: string;
+  talking: string;
+  votes: number;
+  election: string;
+  comments: number;
+  election_id: number;
+  candidate_id: string;
+  image_url: string;
+  onClick: () => any;
+}) {
+  const router = useRouter();
+  const user_id = getCookie("user_id");
+  const token = getCookie("token");
   const [showComment, setShowComment] = React.useState<Boolean>(false);
-  const [like , setLike] = React.useState<Boolean>(false);
+  const [like, setLike] = React.useState<Boolean>(false);
 
   function handleSetComment() {
-    if(user_id == undefined){
-      router.push("/auth/login")
+    if (user_id == undefined) {
+      router.push("/auth/login");
     }
     setShowComment(!showComment);
   }
 
-  function vote (){
-    
+  function vote() {
     if (user_id == undefined) {
-        router.push("/auth/login")
-    }
-    else{
-    setLike(!like)
-    const dataVote = {
-      electionId: election_id,
-      candidateId: candidate_id,
-      user_id: user_id
-    }
+      router.push("/auth/login");
+    } else {
+      setLike(!like);
+      const dataVote = {
+        electionId: election_id,
+        candidateId: candidate_id,
+        user_id: user_id,
+      };
 
-    postAxios("/vote/create", dataVote,{
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    }).then(res => {
-      console.log(res)
-    })
-
+      postAxios("/vote/create", dataVote, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res) => {
+        console.log(res);
+      });
     }
-    
   }
 
   return (
@@ -57,46 +75,65 @@ export default function PostCard({name,talking,votes,election,comments,election_
       <div className="w-full relative flex justify-center gap-2 items-center p-3">
         <Avatar className=" self-start">
           <AvatarImage
-            src={image_url== "" ? "https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" : image_url}
-            alt="user-profile"
+            src={
+              image_url == ""
+                ? "https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+                : image_url
+            }
+            alt="candidate-profile"
           />
         </Avatar>
-        <Eye className="cursor-pointer absolute right-4 top-3" size={15} onClick={onClick}/>
+
+        <PostVIewPerCandidate
+          name={name}
+          talking={talking}
+          votes={votes}
+          election={election}
+          comments={comments}
+          election_id={election_id}
+          candidate_id={candidate_id}
+          image_url={image_url}
+
+        />
         <div className="col-span-4 grow h-auto min-h-100px">
           <p className="text-sm">{name}</p>
           <p className="text-sm text-gray-600 mb-6">Candidate of {election}</p>
-          <p className="text-sm text-justify">
-            {talking}
-          </p>
+          <p className="text-sm text-justify">{talking}</p>
           <div className="w-[140px] mt-3 gap-3 flex justify-between p-2">
             <div className="flex flex-row gap-2">
-              <motion.div 
+              <motion.div
                 onClick={vote}
-                children = {(<Heart
-                
-                  fill={like ? "yellow" : "white"}
-                  color={like ? "yellow" : "black"}
-                  size={20}
-                  className="cursor-pointer"
-                />)}
-
-            
-                  initial={like ? {
-                    scale: 0.8 
-                  } : {scale:1}}
-  
-                  animate={like ? {
-                    
-                    scale:1.5
-                  }: {scale: 1}}
-  
-                  transition={like ? {
-                    type:"tween",
-                    repeat:Infinity,
-                    duration:2
-                  }: {}}
-                
-                
+                children={
+                  <Heart
+                    fill={like ? "yellow" : "white"}
+                    color={like ? "yellow" : "black"}
+                    size={20}
+                    className="cursor-pointer"
+                  />
+                }
+                initial={
+                  like
+                    ? {
+                        scale: 0.8,
+                      }
+                    : { scale: 1 }
+                }
+                animate={
+                  like
+                    ? {
+                        scale: 1.5,
+                      }
+                    : { scale: 1 }
+                }
+                transition={
+                  like
+                    ? {
+                        type: "tween",
+                        repeat: Infinity,
+                        duration: 2,
+                      }
+                    : {}
+                }
               />
               <p className="text-sm cursor-pointer">{votes}</p>
             </div>
@@ -113,7 +150,10 @@ export default function PostCard({name,talking,votes,election,comments,election_
                   alt="user-profile"
                 />
               </Avatar>
-              <Textarea  className="bg-background dark:border-gray-800 border-gray-200 text-foreground" placeholder="write a comment"/>
+              <Textarea
+                className="bg-background dark:border-gray-800 border-gray-200 text-foreground"
+                placeholder="write a comment"
+              />
             </div>
           )}
         </div>
