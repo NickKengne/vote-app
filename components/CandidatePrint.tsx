@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 import { AnimatedList } from "@/components/magicui/animated-list";
 import { API_BASE_URL } from "@/config/axios";
 import React from "react";
-import { getCookie } from "cookies-next";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import { electionStore } from "@/store/store";
 
 interface Item {
   name: string;
@@ -55,17 +55,30 @@ const Notification = ({ name, description, image, party_political }: Item) => {
 
 export function CandidatePrint() {
   const [candidate , setCandidate] = React.useState<[]>([])
-  const token = getCookie("token")
+  const election = electionStore((state: any) => state.election);
+  const election_id = election?.id
+
   React.useEffect(() => {
-    fetch(API_BASE_URL + "/candidate/all").then(res => res.json())
+    if (election_id != undefined) {
+      fetch(API_BASE_URL + `/candidate/election/${election_id}`).then(res => res.json())
        .then(data => {
-         console.log(data)
+        console.table(data)
          setCandidate(data)
        })
-   },[])
+    }
+    else{
+      fetch(API_BASE_URL + "/candidate/all").then(res => res.json())
+       .then(data => {
+         setCandidate(data)
+       })
+    }
+   },[election_id])
+
+ 
+
   return (
-    <div className="fixed right-4 top-4 flex max-h-[350px] min-h-[340px] w-[300px] flex-col overflow-hidden rounded-lg  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60  p-3 lg:z-0 md:z-50 z-50">
-      <p className="text-2xl font-medium mb-3">Real time result</p>
+    <div className="fixed right-4 top-4 lg:flex md:flex 2xl:flex max-h-[350px] min-h-[340px] w-[300px] flex-col overflow-hidden rounded-lg  bg-background/95 backdrop-blur hidden supports-[backdrop-filter]:bg-background/60  p-3 lg:z-0 md:z-50 z-50">
+      <p className="text-2xl font-medium mb-3">Candidate 2024</p>
       <AnimatedList>
         {candidate?.map((item:any, idx:number) => (
           <Notification name={item?.name} image={item?.image} party_political={item?.party_political} description={item?.election?.name}key={idx}  />

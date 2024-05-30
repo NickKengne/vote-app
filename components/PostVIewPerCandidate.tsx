@@ -50,7 +50,7 @@ export default function PostVIewPerCandidate({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="absolute right-3 top-3"><Eye size={20}/></Button>
+        <Button variant="ghost" className="absolute right-3 top-3"><Eye size={20}/></Button>
       </DialogTrigger> 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

@@ -1,29 +1,21 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-//import { redirect } from "next/navigation";
-//import { cookies } from "next/headers";
-
-//import Link from "next/link";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import BottomNav from "@/components/BottomNav";
-import SearchBar from "@/components/SearchBar";
+
 import Categories from "@/components/Categories";
 import { Separator } from "@/components/ui/separator";
 import PostCard from "@/components/PostCard";
 import Header from "@/components/Header";
 import Loading from "./loading";
-import { CookieValueTypes, getCookie } from "cookies-next";
-import { user } from "@/types/type";
 import { CandidatePrint } from "@/components/CandidatePrint";
 import { API_BASE_URL } from "@/config/axios";
 import { toast } from "sonner";
-import { electionStore, useSelectPostPerElection } from "@/store/store";
+import { electionStore } from "@/store/store";
+import feast from "@/public/images/together.svg"
 
 export default function Page() {
   const [post, setPosts] = useState([]);
-  const [filterPosts, setFilterPosts] = useState([]);
-  const isSelected = useSelectPostPerElection((state: any) => state.isSelected);
   const election = electionStore((state: any) => state.election);
   const election_id = election?.id
 
@@ -33,7 +25,6 @@ export default function Page() {
       fetch(API_BASE_URL + `/post/election/${election_id}`)
       .then((res) => res.json())
       .then((data) => {
-        //console.log(data)
         setPosts(data)
       });
      }
@@ -44,8 +35,6 @@ export default function Page() {
      }
     
   }, [election_id]);
-
-  console.log(isSelected, filterPosts);
 
 
 

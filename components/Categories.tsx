@@ -32,7 +32,6 @@ export default function Categories() {
               setSelected()
               setElectionSelected(item)
               setElection(item)
-              
             }}
           >
             <p className={`text-sm ${selectedElection?.id === item.id ? "dark:text-white text-white": "dark:text-white text-black"}`}>{item?.name}</p>

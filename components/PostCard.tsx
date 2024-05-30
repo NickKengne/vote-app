@@ -3,7 +3,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
-import { Eye, Heart, MessageCircle, Share } from "lucide-react";
+import { Eye, Heart, MessageCircle, Send, Share } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -40,6 +40,8 @@ export default function PostCard({
   const user_id = getCookie("user_id");
   const token = getCookie("token");
   const [showComment, setShowComment] = React.useState<Boolean>(false);
+  const [onTypingComment, setTypingComment] = React.useState<boolean>(false);
+  const [thisComment, setThisComment] = React.useState<string>("");
   const [like, setLike] = React.useState<Boolean>(false);
 
   function handleSetComment() {
@@ -72,7 +74,7 @@ export default function PostCard({
 
   return (
     <>
-      <div className="w-full relative flex justify-center gap-2 items-center p-3">
+      <div className="w-full relative flex justify-center gap-4 items-center p-3">
         <Avatar className=" self-start">
           <AvatarImage
             src={
@@ -93,7 +95,6 @@ export default function PostCard({
           election_id={election_id}
           candidate_id={candidate_id}
           image_url={image_url}
-
         />
         <div className="col-span-4 grow h-auto min-h-100px">
           <p className="text-sm">{name}</p>
@@ -146,14 +147,23 @@ export default function PostCard({
             <div className="mt-3 flex gap-3">
               <Avatar className=" self-start">
                 <AvatarImage
-                  src="https://as1.ftcdn.net/v2/jpg/03/46/83/96/1000_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-                  alt="user-profile"
+                  src="https://github.com/shadcn.png"
+                  alt="user profile"
                 />
+                <AvatarFallback>Me</AvatarFallback>
               </Avatar>
               <Textarea
                 className="bg-background dark:border-gray-800 border-gray-200 text-foreground"
                 placeholder="write a comment"
+                value={thisComment}
+                onChange={(text) => {
+                  setTypingComment(true);
+                  setThisComment(text.target.value);
+                }}
               />
+              <Button variant={thisComment.length > 0 ? "default" : "outline"}>
+                <Send size={15} />
+              </Button>
             </div>
           )}
         </div>
