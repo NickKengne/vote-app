@@ -64,12 +64,13 @@ export default function PostCard({
         candidateId: candidate_id,
         user_id: user_id,
       };
-
+      console.log(dataVote)
       postAxios("/vote/create", dataVote, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }).then((res) => {
+        //console.log(res)
         toast(res)
       });
     }

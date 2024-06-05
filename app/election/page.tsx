@@ -1,5 +1,3 @@
-"use client"
-
 import BottomNav from '@/components/BottomNav'
 import Header from '@/components/Header'
 import React from 'react'

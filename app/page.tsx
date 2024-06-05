@@ -36,7 +36,7 @@ export default function Page() {
   }, [election_id]);
 
 
-  //console.table(post)
+  console.table(post)
 
 
 
@@ -61,7 +61,7 @@ export default function Page() {
               votes={0}
               election={item?.election?.name}
               comments={item?.comment}
-              election_id={item?.candidate?.election?.id}
+              election_id={item?.election?.id}
               candidate_id={item?.candidate?.id}
               image_url={item?.candidate?.image}
               onClick={() => {
