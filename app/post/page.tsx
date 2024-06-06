@@ -88,7 +88,7 @@ export default function page() {
     }
    }).then(res => res.json())
       .then(data => {
-        console.log(data)
+        //console.log(data)
         setElectionFetch(data)
       })
   },[])
@@ -115,7 +115,7 @@ export default function page() {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) => {
-      console.log(res);
+     // console.log(res);
       if (res.success == true) {
         toast(res?.message);
         setLoading(false);
@@ -250,7 +250,7 @@ function CreateElection() {
         Authorization: `Bearer ${token}`,
       },
     }).then((res: string) => {
-      console.log(res);
+      //console.log(res);
       if (res == "Election created successfully !") {
         toast(res);
         setLoading(false);
