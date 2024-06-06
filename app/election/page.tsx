@@ -1,10 +1,9 @@
+"use client"
+
 import BottomNav from '@/components/BottomNav'
 import Header from '@/components/Header'
 import React from 'react'
-import Categories from '@/components/Categories'
-import PostCard from '@/components/PostCard'
 import { Separator } from '@radix-ui/react-separator'
-import SearchBar from '@/components/SearchBar'
 import CardElection from '@/components/CardElection'
 
 export default function page() {
