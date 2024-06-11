@@ -1,12 +1,12 @@
-"use client"
 
+"use client"
 import BottomNav from '@/components/BottomNav'
 import Header from '@/components/Header'
 import React from 'react'
 import { Separator } from '@radix-ui/react-separator'
 import CardElection from '@/components/CardElection'
 
-export default function page() {
+export  default  function page() {
   return (
     <main className="w-full min-h-screen flex items-center justify-center">
     <BottomNav />
