@@ -1,9 +1,11 @@
 
-import { API_BASE_URL } from '@/config/axios';
-import React from 'react';
+"use client"
+
+import { API_BASE_URL, getAxios } from '@/config/axios';
+import React, { useEffect } from 'react';
 import CardSingle from './CardElectionSingle';
 
-export default async function CardElection() {
+export default  function CardElection() {
   const cards = [
     { id: 1, toColor1: 'to-blue-300', fromColor1: 'from-blue-600', toColor2: 'to-blue-600', fromColor2: 'from-blue-300' },
     { id: 2, toColor1: 'to-green-300', fromColor1: 'from-green-600', toColor2: 'to-green-600', fromColor2: 'from-green-300' },
@@ -16,9 +18,12 @@ export default async function CardElection() {
   ];
 
 
-  const election = await fetch(API_BASE_URL + `/election/all`).then(res => res.json())
-                          .then(data => data)
-  
+  const [election ,setElection] = React.useState<[]>([])
+
+  useEffect(() => {
+    getAxios("/election/all",[],{}).then(res => setElection(res))
+  }, []);
+
 
   return (
     <div className='w-full flex flex-row justify-center items-center gap-5 flex-wrap'>
