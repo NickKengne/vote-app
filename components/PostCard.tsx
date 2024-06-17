@@ -21,7 +21,6 @@ import { timeAgo } from "@/utils/timeAgo";
 export default function PostCard({
   name,
   talking,
-  votes,
   election,
   comments,
   election_id,
@@ -32,7 +31,6 @@ export default function PostCard({
 }: {
   name: string;
   talking: string;
-  votes: number;
   election: string;
   comments: [];
   election_id: number;
@@ -127,7 +125,6 @@ export default function PostCard({
         <PostVIewPerCandidate
           name={name}
           talking={talking}
-          votes={votes}
           election={election}
           comments={comments}
           election_id={election_id}
@@ -174,7 +171,6 @@ export default function PostCard({
                     : {}
                 }
               />
-              <p className="text-sm cursor-pointer">{votes}</p>
             </div>
             <div className="flex flex-row gap-1" onClick={handleSetComment}>
               <MessageCircle size={18} className="cursor-pointer" />

@@ -35,6 +35,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import AreaPlotChart from "./AreaPlotChart";
 
 export type Result = {
     id: string;
@@ -43,156 +44,18 @@ export type Result = {
     votes: string;
     rank: string;
   };
+
+
   
-  const totalVotes = 1500 + 1200 + 1800 + 900 + 2100;
   
-  const data: Result[] = [
-    {
-      id: "1",
-      name: "Alice Johnson",
-      percent: (1500 / totalVotes) * 100,
-      votes: "1500",
-      rank: "2nd"
-    },
-    {
-      id: "2",
-      name: "Bob Smith",
-      percent: (1200 / totalVotes) * 100,
-      votes: "1200",
-      rank: "3rd"
-    },
-    {
-      id: "3",
-      name: "Charlie Brown",
-      percent: (1800 / totalVotes) * 100,
-      votes: "1800",
-      rank: "1st"
-    },
-    {
-      id: "4",
-      name: "David Williams",
-      percent: (900 / totalVotes) * 100,
-      votes: "900",
-      rank: "4th"
-    },
-    {
-      id: "5",
-      name: "Eve Davis",
-      percent: (2100 / totalVotes) * 100,
-      votes: "2100",
-      rank: "5th"
-    }
-  ];
   
   
   
   
   
 
-export const columns: ColumnDef<Result>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "id",
-    header: "Id",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
-  },
-  {
-    accessorKey: "name",
-    header: "Candidate",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "percent",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          percent
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase ml-6">{row.getValue("percent")}%</div>,
-  },
-  {
-    accessorKey: "rank",
-    header: "Rank",
-    cell: ({ row }) => (
-      <div className="capitalize flex">
-          {row.getValue("rank")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "votes",
-    header: () => <div className="">Votes</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("votes"));
 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="font-medium">{row.getValue("votes")}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
-export default function TableElectionResult() {
+export default function TableElectionResult({data}: {data:[]}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -201,6 +64,98 @@ export default function TableElectionResult() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const columns: ColumnDef<any>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "id",
+      header: "Id",
+      cell: ({ row }) => <div className="capitalize">{row.original.candidate["id"]}</div>,
+    },
+    {
+      accessorKey: "name",
+      header: "Candidate",
+      cell: ({ row }) => {
+      return (<div className="capitalize">{row.original.candidate?.name + " " +  row.original.candidate.first_name}</div>)},
+    },
+    {
+      accessorKey: "percent",
+      header: ({ column}) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            percent
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const totalVotes = data.reduce((sum, item:any) => sum + item.votes, 0);
+        let percent:any = 0
+         if (totalVotes == 0 ) {
+            percent = 0
+         }
+         else  percent = (row.original.votes / totalVotes) * 100
+        return(<div className="lowercase ml-6">{percent == "NaN" ? 0 : percent}%</div>)},
+    },
+    {
+      accessorKey: "votes",
+      header: () => <div className="">Votes</div>,
+      cell: ({ row }) => {
+        return <div className="font-medium">{row.original.votes}</div>;
+      },
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const candidate = row.original.candidate;
+  
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(candidate.id)}
+              >
+                Copy candidate ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>View candidate profile</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
   const table = useReactTable({
     data,
     columns,
@@ -332,6 +287,16 @@ export default function TableElectionResult() {
             </Button>
           </div>
         </div>
+      </div>
+      <div className="h-[300px] m-4 rounded">
+        <AreaPlotChart 
+          xAxis="year" 
+          yAxis="events" 
+          key1="year" 
+          key2="events" 
+          colorPv="#8884d8" 
+          colorUv="#82ca9d" 
+        />
       </div>
     </div>
   );

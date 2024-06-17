@@ -36,7 +36,7 @@ export default function Page() {
   }, [election_id]);
 
 
-  console.table(post)
+ // console.table(post)
 
 
 
@@ -58,7 +58,6 @@ export default function Page() {
               key={index}
               name={item?.candidate?.name + " " + item?.candidate?.first_name}
               talking={item?.speech}
-              votes={0}
               election={item?.election?.name}
               comments={item?.comment}
               election_id={item?.election?.id}
