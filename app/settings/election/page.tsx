@@ -1,5 +1,3 @@
-"use client"
-
 import React from 'react'
 import TableElectionView from '../components/TableElectionView'
 import { API_BASE_URL } from '@/config/axios';
