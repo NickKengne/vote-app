@@ -148,6 +148,7 @@ export default function page() {
         </DialogHeader>
         <div className="grid  grid-cols-1 gap-4">
           <div className="grid grid-rows items-center">
+          
           <Input
               placeholder="Candidate name"
               className="mb-3"

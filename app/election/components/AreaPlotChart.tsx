@@ -1,79 +1,8 @@
 import React from 'react'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-export default function AreaPlotChart({xAxis ,yAxis , key1, key2,colorPv , colorUv} : {xAxis: string , yAxis:string , key1:string , key2:string,colorPv:string,colorUv:string}) {
-    const saasData = [
-        {
-          year: "2016",
-          events: 1200,
-          users: 3000,
-          revenue: 15000,
-          expenses: 10500,
-          profits: 4500,
-          subscriptionGrowth: 20, // percentage
-          churnRate: 5 // percentage
-        },
-        {
-          year: "2017",
-          events: 1500,
-          users: 4000,
-          revenue: 20000,
-          expenses: 14000,
-          profits: 6000,
-          subscriptionGrowth: 25,
-          churnRate: 4.5
-        },
-        {
-          year: "2018",
-          events: 1800,
-          users: 4500,
-          revenue: 25000,
-          expenses: 17500,
-          profits: 7500,
-          subscriptionGrowth: 30,
-          churnRate: 4
-        },
-        {
-          year: "2019",
-          events: 2200,
-          users: 5000,
-          revenue: 30000,
-          expenses: 21000,
-          profits: 9000,
-          subscriptionGrowth: 35,
-          churnRate: 3.8
-        },
-        {
-          year: "2020",
-          events: 2500,
-          users: 6000,
-          revenue: 35000,
-          expenses: 24500,
-          profits: 10500,
-          subscriptionGrowth: 40,
-          churnRate: 3.5
-        },
-        {
-          year: "2021",
-          events: 2800,
-          users: 7000,
-          revenue: 40000,
-          expenses: 28000,
-          profits: 12000,
-          subscriptionGrowth: 45,
-          churnRate: 3.2
-        },
-        {
-          year: "2022",
-          events: 3200,
-          users: 8000,
-          revenue: 45000,
-          expenses: 31500,
-          profits: 13500,
-          subscriptionGrowth: 50,
-          churnRate: 3
-        }
-      ];
+export default function AreaPlotChart({xAxis ,yAxis , key1, key2,colorPv , colorUv,saasData} : {xAxis: string , yAxis:string , key1:string , key2:string,colorPv:string,colorUv:string,saasData:[]}) {
+   
       
   return (
         <>

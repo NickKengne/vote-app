@@ -16,7 +16,7 @@ const CardSingle = ({ election, color }: { election: any; color: any }) => {
         setEffect(true);
         setTimeout(() => {
             setEffect(false);
-            router.push(`/election/${election?.id}`)
+            router.push(`/election/result/${election?.id}`)
         }, 1600);
       }}
     >

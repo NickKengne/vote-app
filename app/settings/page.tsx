@@ -56,6 +56,30 @@ export default function page() {
         ) : (
           <>
             <p>Hello , {user?.name}</p>
+            {user?.role == "ADMIN" ? (
+              <>
+                <Button
+                  variant={"outline"}
+                  onClick={() => {
+                    router.push("/settings/election");
+                  }}
+                  className="my-3"
+                >
+                  Manage election
+                </Button>
+                <Button
+                  variant={"outline"}
+                  onClick={() => {
+                    router.push("/settings/user");
+                  }}
+                  className="mb-3"
+                >
+                  Manage Users
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
             {loading ? (
               <Loader />
             ) : (

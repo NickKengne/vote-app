@@ -35,7 +35,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import AreaPlotChart from "./AreaPlotChart";
+import { deleteAxios, postAxios } from "@/config/axios";
+import { toast } from "sonner";
+
 
 export type Result = {
     id: string;
@@ -48,25 +50,13 @@ export type Result = {
 
   
 
-  const data2 = [
-    { time: '08:00', votes: 10, percent: 10 },
-    { time: '09:00', votes: 30, percent: 20 },
-    { time: '10:00', votes: 50, percent: 30 },
-    { time: '11:00', votes: 70, percent: 40 },
-    { time: '12:00', votes: 100, percent: 50 },
-    { time: '13:00', votes: 130, percent: 65 },
-    { time: '14:00', votes: 160, percent: 80 },
-    { time: '15:00', votes: 200, percent: 100 },
-  ];
-  
-  
   
   
   
   
 
 
-export default function TableElectionResult({data}: {data:[]}) {
+export default function TableUserView({data}: {data:[]}) {
   console.log(data)
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -75,6 +65,13 @@ export default function TableElectionResult({data}: {data:[]}) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+
+  const deleteUser = (id : string) => {
+    deleteAxios(`/user/delete/${id}`,[]).then(res => {
+        toast(res)
+    })
+  }
 
   const columns: ColumnDef<any>[] = [
     {
@@ -102,48 +99,50 @@ export default function TableElectionResult({data}: {data:[]}) {
     {
       accessorKey: "id",
       header: "Id",
-      cell: ({ row }) => <div className="capitalize">{row.original.candidate["id"]}</div>,
+      cell: ({ row }) => <div className="capitalize">{row.original.id.slice(0,4) + "...."}</div>,
     },
     {
       accessorKey: "name",
-      header: "Candidate",
+      header: "User",
       cell: ({ row }) => {
-      return (<div className="capitalize">{row.original.candidate?.name + " " +  row.original.candidate.first_name}</div>)},
+      return (<div className="capitalize">{row.original.name + " " +  row.original.firstname}</div>)},
     },
     {
-      accessorKey: "percent",
+      accessorKey: "email",
       header: ({ column}) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            percent
+            Email
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => {
-        const totalVotes = data.reduce((sum, item:any) => sum + item.votes, 0);
-        let percent:any = 0
-         if (totalVotes == 0 ) {
-            percent = 0
-         }
-         else  percent = (row.original.votes / totalVotes) * 100
-        return(<div className="lowercase ml-6">{percent == "NaN" ? 0 : percent}%</div>)},
+
+        return(<div className="lowercase ml-6">{row.original.email}</div>)},
     },
     {
-      accessorKey: "votes",
-      header: () => <div className="">Votes</div>,
+      accessorKey: "adrress",
+      header: () => <div className="">Address</div>,
       cell: ({ row }) => {
-        return <div className="font-medium">{row.original.votes}</div>;
+        return <div className="font-medium">{row.original.address}</div>;
       },
     },
+    {
+        accessorKey: "status",
+        header: () => <div className="">Role</div>,
+        cell: ({ row }) => {
+          return <div className="font-medium">{row.original.role}</div>;
+        },
+      },
     {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const candidate = row.original.candidate;
+        const user = row.original;
   
         return (
           <DropdownMenu>
@@ -156,12 +155,17 @@ export default function TableElectionResult({data}: {data:[]}) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(candidate.id)}
+                onClick={() => navigator.clipboard.writeText(user.id)}
               >
                 Copy candidate ID
               </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => deleteUser(user.id)}
+              >
+               Delete user
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View candidate profile</DropdownMenuItem>
+              <DropdownMenuItem>View User profile</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -299,17 +303,6 @@ export default function TableElectionResult({data}: {data:[]}) {
             </Button>
           </div>
         </div>
-      </div>
-      <div className="h-[300px] m-4 rounded">
-      <AreaPlotChart 
-        saasData={data}
-        xAxis="time"
-        yAxis="votes"
-        key1="votes"
-        key2="percent"
-        colorPv="#8884d8"
-        colorUv="#82ca9d"
-      />
       </div>
     </div>
   );
