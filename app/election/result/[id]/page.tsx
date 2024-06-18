@@ -1,11 +1,10 @@
 "use client"
 
 
-import React, { Suspense ,useEffect ,useState} from "react";
+import React, { Suspense} from "react";
 import TableElectionResult from "../../components/TableElectionResult";
 import { API_BASE_URL } from "@/config/axios";
 import Loader from "@/components/Loader";
-import AreaPlotChart from "../../components/AreaPlotChart";
 
 export default async function page({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -19,7 +18,7 @@ export default async function page({ params }: { params: { id: string } }) {
     .then((res) => res.json())
     .then((data) => data);
     
-    console.log(electionResult,election?.name)
+    //console.log(electionResult,election?.name)
 
 
 
